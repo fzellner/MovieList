@@ -5,9 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fzellner.movielist.data.entities.dto.MovieResponse
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.fzellner.movielist.data.entities.MovieResponse
+import com.fzellner.movielist.domain.model.Movie
 import com.fzellner.movielist.popular_movies.interactor.PopularMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -17,19 +21,9 @@ import javax.inject.Inject
 class PopularMoviesViewModel @Inject constructor(
     private val useCase: PopularMoviesUseCase
 ) : ViewModel() {
-    private val _moviesMutableLiveData = MutableLiveData<MovieResponse>()
-    val moviesLiveData: LiveData<MovieResponse>
-        get() = _moviesMutableLiveData
 
-
-    init {
-        useCase()
-            .onEach {
-                _moviesMutableLiveData.value = it
-            }
-            .onStart {
-                Log.d("viewModel", "hmmm comecou a puxar..")
-            }.launchIn(viewModelScope)
+    fun getMovies(): Flow<PagingData<Movie>> {
+        return useCase().cachedIn(viewModelScope)
     }
 
 
