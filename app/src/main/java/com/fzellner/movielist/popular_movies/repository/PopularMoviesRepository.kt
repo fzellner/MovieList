@@ -1,8 +1,10 @@
 package com.fzellner.movielist.popular_movies.repository
 
-import com.fzellner.movielist.data.entities.dto.MovieResponse
+import androidx.paging.PagingData
+import com.fzellner.movielist.data.entities.MovieResponse
+import com.fzellner.movielist.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface PopularMoviesRepository {
-    fun getPopularMovies(): Flow<MovieResponse>
+    fun getPopularMovies(): Flow<PagingData<Movie>>
 }

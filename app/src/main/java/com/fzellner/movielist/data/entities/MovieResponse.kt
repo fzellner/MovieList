@@ -1,4 +1,4 @@
-package com.fzellner.movielist.data.entities.dto
+package com.fzellner.movielist.data.entities
 
 
 data class MovieResponse(
@@ -9,9 +9,10 @@ data class MovieResponse(
 )
 
 data class MovieDTO(
+    val id: Long,
     val poster_path: String,
     val original_title: String,
-    val genres_ids: List<Int>,
-    val releade_date: String,
+    val genre_ids: List<Int>,
+    val release_date: String,
     val overview: String
 )
